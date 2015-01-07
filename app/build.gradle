@@ -1,0 +1,45 @@
+apply plugin: 'com.android.application'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://4thline.org/m2"
+    }
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion '19.1.0'
+    defaultConfig {
+        applicationId 'com.proog128.sharedphotos'
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 1
+        versionName '1.0'
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    productFlavors {
+    }
+    packagingOptions {
+        exclude 'META-INF/beans.xml'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:support-v4:19.+'
+    compile 'com.android.support:appcompat-v7:21.0.+'
+    compile 'com.github.chrisbanes.photoview:library:1.2.+'
+    compile 'com.drewnoakes:metadata-extractor:2.7.+'
+    compile 'org.fourthline.cling:cling-core:2.0.1'
+    compile 'org.fourthline.cling:cling-support:2.0.1'
+    compile 'org.eclipse.jetty:jetty-server:8.1.8.v20121106'
+    compile 'org.eclipse.jetty:jetty-servlet:8.1.8.v20121106'
+    compile 'org.eclipse.jetty:jetty-client:8.1.8.v20121106'
+    compile 'org.slf4j:slf4j-jdk14:1.6.1'
+}
