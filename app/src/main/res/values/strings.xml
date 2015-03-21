@@ -6,6 +6,14 @@
     <string name="title_activity_sharedphotos_devices">Devices</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_slideshow">Slideshow</string>
+    <string name="title_activity_settings">Settings</string>
 
+    <string name="menu_settings">Settings</string>
     <string name="menu_info">Info</string>
+
+    <string name="pref_auto_rotate">Auto-rotate screen</string>
+    <string name="pref_auto_rotate_summary">Enable automatic screen rotation.</string>
+
+    <string name="pref_subtitle">Enable subtitles</string>
+    <string name="pref_subtitle_summary">Show image description stored in IPTC metadata as subtitle.</string>
 </resources>

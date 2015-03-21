@@ -1,8 +1,10 @@
 package com.proog128.sharedphotos;
 
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -81,7 +83,7 @@ public class PictureFragment extends Fragment implements LoaderManager.LoaderCal
         }
 
         image_.setImageBitmap(bmp);
-        caption_.setText(img.getCaption());
+        caption_.setText(subtitlesEnabled() ? img.getCaption() : "");
         attacher_.update();
 
         updateOrientation();
@@ -96,8 +98,30 @@ public class PictureFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void updateOrientation() {
-        if(getUserVisibleHint() && orientation_ != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
-            getActivity().setRequestedOrientation(orientation_);
+        if(autoRotateEnabled()) {
+            if (getUserVisibleHint() && orientation_ != ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED) {
+                getActivity().setRequestedOrientation(orientation_);
+            }
+        } else {
+            if (getUserVisibleHint()) {
+                getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            }
         }
+    }
+
+    private boolean autoRotateEnabled() {
+        if(getActivity() != null && getActivity().getApplicationContext() != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            return prefs.getBoolean(SettingsActivity.KEY_PREF_AUTO_ROTATE, true);
+        }
+        return true;
+    }
+
+    private boolean subtitlesEnabled() {
+        if(getActivity() != null && getActivity().getApplicationContext() != null) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+            return prefs.getBoolean(SettingsActivity.KEY_PREF_SUBTITLE, true);
+        }
+        return true;
     }
 }

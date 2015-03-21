@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="pref_auto_rotate"
+        android:title="@string/pref_auto_rotate"
+        android:summary="@string/pref_auto_rotate_summary"
+        android:defaultValue="true" />
+    <CheckBoxPreference
+        android:key="pref_subtitle"
+        android:title="@string/pref_subtitle"
+        android:summary="@string/pref_subtitle_summary"
+        android:defaultValue="true" />
+</PreferenceScreen>

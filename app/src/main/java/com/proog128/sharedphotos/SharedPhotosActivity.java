@@ -108,12 +108,20 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                openSettingsDialog();
+                return true;
             case R.id.action_info:
                 openInfoDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openSettingsDialog() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void openInfoDialog() {
