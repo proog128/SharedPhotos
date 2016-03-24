@@ -6,7 +6,7 @@
 
     <view
         class="com.proog128.sharedphotos.ImageAdapter$ThumbnailView"
-        android:layout_width="190dp"
+        android:layout_width="match_parent"
         android:layout_height="190dp"
         android:id="@+id/image"
         android:layout_gravity="center_horizontal"

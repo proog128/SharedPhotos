@@ -1,16 +1,17 @@
 package com.proog128.sharedphotos;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -83,6 +84,10 @@ public class ImageAdapter extends BaseAdapter {
         image = (ThumbnailView) convertView.findViewById(R.id.image);
         text = (TextView) convertView.findViewById(R.id.text);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context_);
+        float size = Float.parseFloat(prefs.getString(SettingsActivity.KEY_PREF_THUMBNAIL_SIZE, "1.0"));
+        image.getLayoutParams().height = (int) (context_.getResources().getDimension(R.dimen.height) * size);
+
         if(image.item_ != item) {
             image.lazySetItem(item);
 
@@ -117,9 +122,6 @@ public class ImageAdapter extends BaseAdapter {
         }
 
         private void init(Context context) {
-            setLayoutParams(new GridView.LayoutParams(
-                    (int) context.getResources().getDimension(R.dimen.width),
-                    (int) context.getResources().getDimension(R.dimen.height)));
             setBackgroundColor(BACKGROUND_COLOR);
         }
 

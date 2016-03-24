@@ -16,4 +16,7 @@
 
     <string name="pref_subtitle">Enable subtitles</string>
     <string name="pref_subtitle_summary">Show image description stored in IPTC metadata as subtitle.</string>
+
+    <string name="pref_thumbnail_size">Thumbnail size</string>
+    <string name="pref_thumbnail_size_default">1.0</string>
 </resources>

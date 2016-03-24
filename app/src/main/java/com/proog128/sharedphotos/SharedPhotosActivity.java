@@ -4,10 +4,11 @@ import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,7 +18,6 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proog128.sharedphotos.filesystem.IFilesystem;
@@ -87,6 +87,15 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
         fsService_.stop();
 
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        float size = Float.parseFloat(prefs.getString(SettingsActivity.KEY_PREF_THUMBNAIL_SIZE, "1.0"));
+        gridView_.setColumnWidth((int) (getApplicationContext().getResources().getDimension(R.dimen.width) * size));
     }
 
     @Override
