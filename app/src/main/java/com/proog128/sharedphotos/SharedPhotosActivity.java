@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -29,6 +30,8 @@ import com.proog128.sharedphotos.filesystem.dlna.DlnaFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SharedPhotosActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<LoaderResult>,IFilesystemServiceListener, AdapterView.OnItemClickListener {
     private GridView gridView_;
@@ -40,6 +43,7 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
     private IFilesystem fs_;
 
     private IPath currentPath_;
+    private Map<String, Parcelable> state_ = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +191,10 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
             b.putSerializable("path", currentPath_);
             getLoaderManager().restartLoader(0, b, this);
         }
+
+        if(state_.get(currentPath_.toString()) != null) {
+            gridView_.onRestoreInstanceState(state_.get(currentPath_.toString()));
+        }
     }
 
     @Override
@@ -213,6 +221,7 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        state_.put(currentPath_.toString(), gridView_.onSaveInstanceState());
         IPath path = adapter_.getItem(position);
         IPath target = currentPath_.concat(path);
 
