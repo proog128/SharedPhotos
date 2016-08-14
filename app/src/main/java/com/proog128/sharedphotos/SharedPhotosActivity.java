@@ -194,6 +194,7 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
 
         if(state_.get(currentPath_.toString()) != null) {
             gridView_.onRestoreInstanceState(state_.get(currentPath_.toString()));
+            state_.remove(currentPath_.toString());
         }
     }
 
@@ -231,7 +232,8 @@ public class SharedPhotosActivity extends ActionBarActivity implements LoaderMan
             startActivity(intent);
         } else {
             fsFactory_.makeDirty(target);
-
+            state_.remove(target.toString());
+            
             Bundle b = new Bundle();
             b.putSerializable("path", target);
             getLoaderManager().restartLoader(0, b, this);
