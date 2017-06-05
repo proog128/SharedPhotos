@@ -33,15 +33,8 @@ public class ImageLoader {
         private Metadata metadata_;
         private String caption_ = "";
 
-        private static int maxTextureSize_ = getMaxTextureSize();
-
         public Image(Bitmap bmp, Metadata metadata) {
             Matrix matrix = new Matrix();
-
-            int size = Math.max(bmp.getWidth(), bmp.getHeight());
-            float scale = Math.min(1.0f, (float) maxTextureSize_ / size);
-
-            matrix.preScale(scale, scale);
 
             if(metadata != null) {
                 matrix.preConcat(rotation(metadata));
@@ -50,7 +43,7 @@ public class ImageLoader {
             if(matrix.isIdentity()) {
                 bmp_ = bmp;
             } else {
-                bmp_ = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, false);
+                bmp_ = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             }
 
             if(metadata != null) {
@@ -110,44 +103,77 @@ public class ImageLoader {
         public String getCaption() {
             return caption_;
         }
+    }
 
-        private static int getMaxTextureSize() {
-            // Retrieve GL_MAX_TEXTURE_SIZE (maximum allowed size of bitmap in
-            // hardware-accelerated ImageView) without GLSurfaceView
-            // from http://stackoverflow.com/questions/15313807/android-maximum-allowed-width-height-of-bitmap
+    private static int maxTextureSize_ = getMaxTextureSize();
 
-            final int IMAGE_MAX_BITMAP_DIMENSION = 2048;
+    private static int getMaxTextureSize() {
+        // Retrieve GL_MAX_TEXTURE_SIZE (maximum allowed size of bitmap in
+        // hardware-accelerated ImageView) without GLSurfaceView
+        // from http://stackoverflow.com/questions/15313807/android-maximum-allowed-width-height-of-bitmap
 
-            EGL10 egl = (EGL10) EGLContext.getEGL();
-            EGLDisplay display = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
+        final int IMAGE_MAX_BITMAP_DIMENSION = 2048;
 
-            int[] version = new int[2];
-            egl.eglInitialize(display, version);
+        EGL10 egl = (EGL10) EGLContext.getEGL();
+        EGLDisplay display = egl.eglGetDisplay(EGL10.EGL_DEFAULT_DISPLAY);
 
-            int[] totalConfigurations = new int[1];
-            egl.eglGetConfigs(display, null, 0, totalConfigurations);
+        int[] version = new int[2];
+        egl.eglInitialize(display, version);
 
-            EGLConfig[] configurationsList = new EGLConfig[totalConfigurations[0]];
-            egl.eglGetConfigs(display, configurationsList, totalConfigurations[0], totalConfigurations);
+        int[] totalConfigurations = new int[1];
+        egl.eglGetConfigs(display, null, 0, totalConfigurations);
 
-            int[] textureWidth = new int[1];
-            int[] textureHeight = new int[1];
-            int maximumTextureSize = 0;
+        EGLConfig[] configurationsList = new EGLConfig[totalConfigurations[0]];
+        egl.eglGetConfigs(display, configurationsList, totalConfigurations[0], totalConfigurations);
 
-            for (int i = 0; i < totalConfigurations[0]; i++) {
-                egl.eglGetConfigAttrib(display, configurationsList[i], EGL10.EGL_MAX_PBUFFER_WIDTH, textureWidth);
-                egl.eglGetConfigAttrib(display, configurationsList[i], EGL10.EGL_MAX_PBUFFER_HEIGHT, textureHeight);
+        int[] textureWidth = new int[1];
+        int[] textureHeight = new int[1];
+        int maximumTextureSize = 0;
 
-                int textureSize = Math.min(textureWidth[0], textureHeight[0]);
+        for (int i = 0; i < totalConfigurations[0]; i++) {
+            egl.eglGetConfigAttrib(display, configurationsList[i], EGL10.EGL_MAX_PBUFFER_WIDTH, textureWidth);
+            egl.eglGetConfigAttrib(display, configurationsList[i], EGL10.EGL_MAX_PBUFFER_HEIGHT, textureHeight);
 
-                if (maximumTextureSize < textureSize)
-                    maximumTextureSize = textureSize;
-            }
+            int textureSize = Math.min(textureWidth[0], textureHeight[0]);
 
-            egl.eglTerminate(display);
-
-            return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+            if (maximumTextureSize < textureSize)
+                maximumTextureSize = textureSize;
         }
+
+        egl.eglTerminate(display);
+
+        // Do not allow bitmaps larger than 5000x5000 pixels. Larger images exceed the maximum
+        // bitmap size of 100 MB supported by DisplayListCanvas. See
+        //  platform_frameworks_base/core/java/android/view/DisplayListCanvas.java (3d8298e1a8)
+        maximumTextureSize = Math.min(maximumTextureSize, 5000);
+
+        return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+    }
+
+    public static int nextPowerOf2(int v) {
+        v--;
+        v |= v >> 1;
+        v |= v >> 2;
+        v |= v >> 4;
+        v |= v >> 8;
+        v |= v >> 16;
+        v++;
+        return v;
+    }
+
+    public static Bitmap safeDecode(byte[] data, int maxSize) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        int imageHeight = Math.max(options.outHeight, 1);
+        int imageWidth = Math.max(options.outWidth, 1);
+        int size = Math.max(imageWidth, imageHeight);
+        float scale = Math.min(1.0f, (float) maxSize / size);
+
+        options = new BitmapFactory.Options();
+        options.inSampleSize = nextPowerOf2((int)Math.ceil(1.0 / scale));
+        Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+        return bmp;
     }
 
     public static Image load(URL url) {
@@ -176,9 +202,8 @@ public class ImageLoader {
                  metadata = ImageMetadataReader.readMetadata(bis);
             } catch(ImageProcessingException e) {
             }
-            bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
 
-            return new Image(bmp, metadata);
+            return new Image(safeDecode(data, maxTextureSize_), metadata);
         } catch (Exception e) {
             return null;
         } finally {
@@ -208,7 +233,7 @@ public class ImageLoader {
             }
 
             byte[] data = d.getThumbnailData();
-            bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+            bmp = safeDecode(data, 256);
 
             if(bmp == null) {
                 return null;
