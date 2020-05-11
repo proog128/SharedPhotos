@@ -8,14 +8,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId 'com.proog128.sharedphotos'
         minSdkVersion 16
-        targetSdkVersion 23
-        versionCode 5
-        versionName '1.3'
+        targetSdkVersion 29
+        versionCode 6
+        versionName '1.4-SNAPSHOT'
     }
     buildTypes {
         release {
@@ -31,15 +31,15 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.+'
-    compile 'com.android.support:appcompat-v7:23.+'
-    compile 'com.github.chrisbanes.photoview:library:1.2.+'
-    compile 'com.drewnoakes:metadata-extractor:2.7.+'
-    compile 'org.fourthline.cling:cling-core:2.1.1'
-    compile 'org.fourthline.cling:cling-support:2.1.1'
-    compile 'org.eclipse.jetty:jetty-server:8.1.8.v20121106'
-    compile 'org.eclipse.jetty:jetty-servlet:8.1.8.v20121106'
-    compile 'org.eclipse.jetty:jetty-client:8.1.8.v20121106'
-    compile 'org.slf4j:slf4j-jdk14:1.6.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.github.chrisbanes.photoview:library:1.2.+'
+    implementation 'com.drewnoakes:metadata-extractor:2.7.+'
+    implementation 'org.fourthline.cling:cling-core:2.1.1'
+    implementation 'org.fourthline.cling:cling-support:2.1.1'
+    implementation 'org.eclipse.jetty:jetty-server:8.1.8.v20121106'
+    implementation 'org.eclipse.jetty:jetty-servlet:8.1.8.v20121106'
+    implementation 'org.eclipse.jetty:jetty-client:8.1.8.v20121106'
+    implementation 'org.slf4j:slf4j-jdk14:1.6.1'
 }

@@ -9,7 +9,7 @@ import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,7 +33,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SharedPhotosActivity extends ActionBarActivity implements LoaderManager.LoaderCallbacks<LoaderResult>,IFilesystemServiceListener, AdapterView.OnItemClickListener {
+public class SharedPhotosActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<LoaderResult>,IFilesystemServiceListener, AdapterView.OnItemClickListener {
     private GridView gridView_;
     private ImageAdapter adapter_;
     private ProgressBar progress_;

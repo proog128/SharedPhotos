@@ -1,7 +1,7 @@
 package com.proog128.sharedphotos;
 
 import android.content.Context;
-import android.support.v4.content.AsyncTaskLoader;
+import androidx.loader.content.AsyncTaskLoader;
 
 import com.proog128.sharedphotos.filesystem.IPath;
 
