@@ -20,5 +20,6 @@
         android:layout_gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:textColor="#bbbbbb"
         android:background="#77000000"/>
 </RelativeLayout>
