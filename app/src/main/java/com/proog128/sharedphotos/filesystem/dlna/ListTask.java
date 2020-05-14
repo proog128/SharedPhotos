@@ -43,7 +43,7 @@ public class ListTask implements IListTask {
 
         listener_.onProgressChanged(0);
 
-        controlPoint_.execute(new Browse(service_, path_.getCollectionId(), BrowseFlag.DIRECT_CHILDREN, "*", 0, (long)maxResults_, new SortCriterion(true, "dc:title")) {
+        controlPoint_.execute(new Browse(service_, path_.getCollectionId(), BrowseFlag.DIRECT_CHILDREN, "@childCount,dc:title,res", 0, (long)maxResults_, new SortCriterion(true, "dc:title")) {
             @Override
             public void received(ActionInvocation actionInvocation, DIDLContent didlContent) {
                 ArrayList<Path> newPaths = new ArrayList<Path>();
