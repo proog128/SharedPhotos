@@ -5,6 +5,9 @@ repositories {
     maven {
         url "http://4thline.org/m2"
     }
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 android {
@@ -34,7 +37,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'com.github.chrisbanes.photoview:library:1.2.+'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.+'
     implementation 'com.drewnoakes:metadata-extractor:2.7.+'
     implementation 'org.fourthline.cling:cling-core:2.1.1'
     implementation 'org.fourthline.cling:cling-support:2.1.1'

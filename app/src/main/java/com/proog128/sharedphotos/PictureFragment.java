@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.proog128.sharedphotos.filesystem.IPath;
 
-import uk.co.senab.photoview.PhotoViewAttacher;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 public class PictureFragment extends Fragment implements LoaderManager.LoaderCallbacks<ImageLoader.Image> {
     private IPath path_;
@@ -59,7 +59,6 @@ public class PictureFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onDestroyView() {
-        attacher_.cleanup();
         getLoaderManager().destroyLoader(0);
 
         super.onDestroyView();
