@@ -161,7 +161,7 @@ public class ImageAdapter extends BaseAdapter {
                 tdImage.setCrossFadeEnabled(true);
                 tdBackground.setCrossFadeEnabled(true);
                 setImageDrawable(tdImage);
-                setBackgroundDrawable(tdBackground);
+                setBackground(tdBackground);
                 tdImage.startTransition(250);
                 tdBackground.startTransition(250);
 
