@@ -11,14 +11,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
     defaultConfig {
         applicationId 'com.proog128.sharedphotos'
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 6
-        versionName '1.4'
+        minSdkVersion 17
+        targetSdkVersion 30
+        versionCode 7
+        versionName '1.5'
     }
     buildTypes {
         release {
@@ -36,7 +36,8 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.leanback:leanback:1.1.0-alpha04'
     implementation 'com.github.chrisbanes:PhotoView:2.3.+'
     implementation 'com.drewnoakes:metadata-extractor:2.7.+'
     implementation 'org.fourthline.cling:cling-core:2.1.1'

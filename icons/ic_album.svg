@@ -13,53 +13,13 @@
    height="256"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
-   inkscape:export-filename="d:\temp\test\gallery\app\src\main\res\drawable-mdpi\ic_album.png"
-   inkscape:export-xdpi="63.279999"
-   inkscape:export-ydpi="63.279999"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   inkscape:export-filename="c:\Users\Tobias\Projekte\sharedphotos\app\src\main\res\drawable-xxhdpi\ic_album.png"
+   inkscape:export-xdpi="144"
+   inkscape:export-ydpi="144"
    sodipodi:docname="ic_album.svg">
   <defs
      id="defs4">
-    <filter
-       inkscape:collect="always"
-       id="filter3822">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.87232143"
-         id="feGaussianBlur3824" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3838">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.653818"
-         id="feGaussianBlur3840" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3844">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.72273483"
-         id="feGaussianBlur3846" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3871">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.52429645"
-         id="feGaussianBlur3873" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter3877">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.42976191"
-         id="feGaussianBlur3879" />
-    </filter>
     <filter
        inkscape:collect="always"
        id="filter3897">
@@ -82,19 +42,19 @@
      pagecolor="#1e1e1e"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="97.048933"
-     inkscape:cy="132.90289"
+     inkscape:zoom="3.959798"
+     inkscape:cx="112.4037"
+     inkscape:cy="137.59044"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:snap-global="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1147"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="2560"
+     inkscape:window-height="1348"
+     inkscape:window-x="-12"
+     inkscape:window-y="-12"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -104,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>

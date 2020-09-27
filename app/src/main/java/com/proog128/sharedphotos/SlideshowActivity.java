@@ -1,7 +1,9 @@
 package com.proog128.sharedphotos;
 
 import android.app.LoaderManager;
+import android.app.UiModeManager;
 import android.content.Loader;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
@@ -44,10 +46,14 @@ public class SlideshowActivity extends FragmentActivity implements IFilesystemSe
         setContentView(R.layout.activity_slideshow);
 
         pager_ = (ViewPager) findViewById(R.id.pager);
-        pager_.setPageTransformer(true, new DepthPageTransformer());
         pager_.setBackgroundColor(Color.BLACK);
 
-        getActionBar().hide();
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+            pager_.setPageTransformer(true, new FadePageTransformer());
+        } else {
+            pager_.setPageTransformer(true, new DepthPageTransformer());
+        }
 
         if (savedInstanceState != null) {
             Object path = savedInstanceState.getSerializable("path");
@@ -104,7 +110,6 @@ public class SlideshowActivity extends FragmentActivity implements IFilesystemSe
                 decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_LOW_PROFILE);
             }
-            getActionBar().hide();
         }
     }
 
@@ -221,6 +226,22 @@ public class SlideshowActivity extends FragmentActivity implements IFilesystemSe
             } else { // (1,+Infinity]
                 // This page is way off-screen to the right.
                 view.setAlpha(0);
+            }
+        }
+    }
+
+
+    private static class FadePageTransformer implements ViewPager.PageTransformer {
+        public void transformPage(View view, float position) {
+            view.setTranslationX(view.getWidth() * -position);
+
+            if(position <= -1 || position >= 1) {
+                view.setAlpha(0);
+            } else if(position == 0) {
+                view.setAlpha(1);
+            } else {
+                float alpha = (position <= 0) ? position + 1 : 1 - position;
+                view.setAlpha(alpha);
             }
         }
     }

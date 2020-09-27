@@ -2,9 +2,11 @@ package com.proog128.sharedphotos;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.app.UiModeManager;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.http.HttpResponseCache;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,6 +21,7 @@ import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proog128.sharedphotos.filesystem.IFilesystem;
@@ -45,10 +48,15 @@ public class SharedPhotosActivity extends AppCompatActivity implements LoaderMan
     private IPath currentPath_;
     private Map<String, Parcelable> state_ = new HashMap<>();
 
+    private boolean isTV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        UiModeManager uiModeManager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        isTV = uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
 
         getLoaderManager(); // Must be called in onCreate to create LoaderManager.
 
@@ -176,9 +184,9 @@ public class SharedPhotosActivity extends AppCompatActivity implements LoaderMan
             currentPath_ = data.parent;
 
             if(currentPath_ != null && !currentPath_.getLastElementName().isEmpty()) {
-                getSupportActionBar().setTitle(currentPath_.getLastElementName());
+                setTitle(currentPath_.getLastElementName());
             } else {
-                getSupportActionBar().setTitle(R.string.title_activity_sharedphotos_devices);
+                setTitle(R.string.title_activity_sharedphotos_devices);
             }
         } else {
             Toast toast = Toast.makeText(getApplicationContext(), data.errorText, Toast.LENGTH_LONG);
@@ -200,7 +208,7 @@ public class SharedPhotosActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public void onLoaderReset(Loader<LoaderResult> loader) {
-        getSupportActionBar().setTitle(R.string.title_activity_sharedphotos_devices);
+        setTitle(R.string.title_activity_sharedphotos_devices);
 
         adapter_.clear();
     }
@@ -255,4 +263,12 @@ public class SharedPhotosActivity extends AppCompatActivity implements LoaderMan
         getLoaderManager().restartLoader(0, b, this);
     }
 
+    private void setTitle(String title) {
+        if (isTV) {
+            TextView t = (TextView) findViewById(R.id.title);
+            t.setText(title);
+        } else {
+            getSupportActionBar().setTitle(title);
+        }
+    }
 }

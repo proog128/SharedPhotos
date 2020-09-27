@@ -1,7 +1,9 @@
 package com.proog128.sharedphotos;
 
+import android.app.UiModeManager;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,6 +21,8 @@ import com.proog128.sharedphotos.filesystem.IPath;
 
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
+import static android.content.Context.UI_MODE_SERVICE;
+
 public class PictureFragment extends Fragment implements LoaderManager.LoaderCallbacks<ImageLoader.Image> {
     private IPath path_;
     private ImageView image_;
@@ -31,6 +35,8 @@ public class PictureFragment extends Fragment implements LoaderManager.LoaderCal
         path_ = path;
     }
 
+    private boolean isTV;
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -41,10 +47,10 @@ public class PictureFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_picture, container, false);
+        UiModeManager uiModeManager = (UiModeManager) getActivity().getSystemService(UI_MODE_SERVICE);
+        isTV = uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
 
-        //TextView urlView = (TextView) rootView.findViewById(R.id.url);
-        //urlView.setText(path_.getContentUrl());
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_picture, container, false);
 
         caption_ = (TextView) rootView.findViewById(R.id.caption);
 
@@ -110,8 +116,12 @@ public class PictureFragment extends Fragment implements LoaderManager.LoaderCal
 
     private boolean autoRotateEnabled() {
         if(getActivity() != null && getActivity().getApplicationContext() != null) {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-            return prefs.getBoolean(SettingsActivity.KEY_PREF_AUTO_ROTATE, true);
+            if (isTV) {
+                return false;
+            } else {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+                return prefs.getBoolean(SettingsActivity.KEY_PREF_AUTO_ROTATE, true);
+            }
         }
         return true;
     }
